@@ -16,6 +16,8 @@ var paymentPage = new PaymentPage();
 dashboardPage.clickOnButtonPayCard();
 dashboardPage.clickOnButtonCreditCard();
 paymentPage.validCard();
+paymentPage.checkAlarm();
+//paymentPage.checkAlarm();
 
 
 
