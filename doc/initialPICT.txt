@@ -1,0 +1,7 @@
+cardNumber: 4444444444444443, 4444 4444 4444 4443, 4444-4444-4444-4443, 4444_4444_4444_4443
+month: y+z, y+z-1, 01, 1, -01, y
+year: х, х+1, х+5
+owner: GTYUTVNHBGJNM JUHBUJUI, GTYUTVNHBGJN JUHBUJUI, IA T, Ivan Ivanov, kolya rik, TO   TE
+CVC: 123, 000
+
+IF [month] in {"01", "1", "01"}   THEN [year] = "х+1";
