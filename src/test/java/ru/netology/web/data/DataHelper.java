@@ -30,7 +30,10 @@ public class DataHelper {
     }
 
     public static CardInfo getCardInfoDenied() {
-        return new CardInfo("4444 4444 4444 4442", "01", "23", "NIK DIK", "123");
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear() - 2000 + 1;
+        String year = String.format("%02d" + currentYear);
+        return new CardInfo("4444 4444 4444 4442", "01", year, "NIK DIK", "123");
     }
     @Value
     public static class DataInfo {

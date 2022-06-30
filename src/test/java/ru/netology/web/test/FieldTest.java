@@ -36,7 +36,11 @@ public class FieldTest {
 
     @Test
     void ShouldGetCurrentYear() { //проверка текста сообщения от банка - отрицательный
-     //  System.out.println(DataHelper.getCurrentYear());
+        open("http://localhost:8080");
+        var dashboardPage = new DashboardPage();
+        var paymentPage = new PaymentPage();
+        dashboardPage.clickOnButtonPayCard();
+        paymentPage.setCurrentData();
 
     }
 

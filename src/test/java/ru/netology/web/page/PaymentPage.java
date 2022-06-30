@@ -27,7 +27,6 @@ public class PaymentPage {
     private SelenideElement alarmFailText = $x("//div[contains(@class,'error')]//div[@class='notification__content']"); //Ошибка! Банк отказал в проведении операции.
 
 
-
     public PaymentPage validCardApproved() {
         cardNumberField.setValue(DataHelper.getCardInfoApproved().getCardNumber());
         monthField.setValue(DataHelper.getCardInfoDenied().getMonth());
@@ -54,6 +53,7 @@ public class PaymentPage {
 
 
     }
+
     public PaymentPage checkAlarmFail() {
         alarmFail.shouldHave(text("Ошибка"));
         alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."));
@@ -61,11 +61,32 @@ public class PaymentPage {
 
 
     }
+
     public PaymentPage checkAlarmOk() {
         alarmOK.shouldHave(text("Успешно"));
         alarmOkText.shouldHave(text("Операция одобрена Банком."));
         return new PaymentPage();
     }
 
-}
+    public PaymentPage setCurrentData() {
+        yearField.setValue(String.format("%02d", DataHelper.getCurrentData().getYear()));
+        monthField.setValue(String.format("%02d", DataHelper.getCurrentData().getMonth()));
+        return new PaymentPage();
+    }
 
+    public int checkData(int month, int year) {
+        int currentMonth = DataHelper.getCurrentData().getMonth();
+        int currentYear = DataHelper.getCurrentData().getYear();
+        if (month < currentMonth & year == currentYear) {
+            return currentMonth;
+        }
+        if (month >= currentMonth & year >= currentYear) {
+        return month;
+        }
+        if (year < currentYear) {
+            return currentYear;
+        }
+        return //??
+    }
+
+    }
