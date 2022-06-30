@@ -1,17 +1,14 @@
 package ru.netology.web.data;
 
 import lombok.Value;
+import ru.netology.web.page.PaymentPage;
+
+import java.time.LocalDate;
+import java.util.Calendar;
 
 public class DataHelper {
-    private DataHelper() {}
-//здесь надо подумать какие данные заносить в итоге
-    //$x("//*[text()='Владелец']//following-sibling::span//following-sibling::span") - поле для текста предупреждения
-// $x("//*[text()='Номер карты']//following-sibling::span//following-sibling::span") - поле для текста предупреждения
-    //$x("//*[text()='Месяц']//following-sibling::span//following-sibling::span")
-//$x("//*[text()='Год']//following-sibling::span//following-sibling::span")
-//$x("//*[text()='CVC/CVV']//following-sibling::span//following-sibling::span")
-
-
+    private DataHelper() {
+    }
 
     @Value
     public static class CardInfo {
@@ -20,10 +17,44 @@ public class DataHelper {
         private String year;
         private String owner;
         private String CVC;
+
+
     }
 
- //   public static CardInfo () {
-  //      return new CardInfo("vasya", "qwerty123");
-   // }
+    public static CardInfo getCardInfoApproved() {
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear() - 2000 + 1;
+        String year = String.format("%02d" + currentYear);
+
+        return new CardInfo("4444 4444 4444 4441", "01", year, "NIK DIK", "123");
+    }
+
+    public static CardInfo getCardInfoDenied() {
+        return new CardInfo("4444 4444 4444 4442", "01", "23", "NIK DIK", "123");
+    }
+    @Value
+    public static class DataInfo {
+        private int year;
+        private int month;
+    }
+    public static DataInfo getCurrentData() {
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear() - 2000;
+        int currentMonth = currentDate.getMonthValue();
+        return new DataInfo(currentYear, currentMonth);
+    }
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+

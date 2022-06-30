@@ -1,6 +1,7 @@
-FROM node:8.16.2-alpine
-WORKDIR opt/app
-RUN npm install
+FROM node:12-alpine
+WORKDIR /opt/app
 COPY . .
+RUN npm install
+CMD ["npm", "start"]
 EXPOSE 9999
-CMD [ "node", "server.js" ]
+

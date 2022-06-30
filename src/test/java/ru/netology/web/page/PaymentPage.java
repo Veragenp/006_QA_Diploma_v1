@@ -3,6 +3,8 @@ package ru.netology.web.page;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.web.data.DataHelper;
 
+import java.util.Calendar;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -26,12 +28,22 @@ public class PaymentPage {
 
 
 
-    public PaymentPage validCard() {
-        cardNumberField.setValue("4444 4444 4444 4448");
-        monthField.setValue("02");
-        yearField.setValue("24");
-        ownerField.setValue("Vasya");
-        CVCField.setValue("123");
+    public PaymentPage validCardApproved() {
+        cardNumberField.setValue(DataHelper.getCardInfoApproved().getCardNumber());
+        monthField.setValue(DataHelper.getCardInfoDenied().getMonth());
+        yearField.setValue(DataHelper.getCardInfoDenied().getYear());
+        ownerField.setValue(DataHelper.getCardInfoDenied().getOwner());
+        CVCField.setValue(DataHelper.getCardInfoDenied().getCVC());
+        continueButton.click();
+        return new PaymentPage();
+    }
+
+    public PaymentPage validCardDenied() {
+        cardNumberField.setValue(DataHelper.getCardInfoDenied().getCardNumber());
+        monthField.setValue(DataHelper.getCardInfoDenied().getMonth());
+        yearField.setValue(DataHelper.getCardInfoDenied().getYear());
+        ownerField.setValue(DataHelper.getCardInfoDenied().getOwner());
+        CVCField.setValue(DataHelper.getCardInfoDenied().getCVC());
         continueButton.click();
         return new PaymentPage();
     }
@@ -42,19 +54,17 @@ public class PaymentPage {
 
 
     }
-    public PaymentPage checkAlarm() {
+    public PaymentPage checkAlarmFail() {
         alarmFail.shouldHave(text("Ошибка"));
         alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."));
         return new PaymentPage();
 
 
     }
-    public PaymentPage shouldSend() {
-        alarmFail.shouldHave(text("Ошибка"));
-        alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."));
+    public PaymentPage checkAlarmOk() {
+        alarmOK.shouldHave(text("Успешно"));
+        alarmOkText.shouldHave(text("Операция одобрена Банком."));
         return new PaymentPage();
-
-
     }
 
 }

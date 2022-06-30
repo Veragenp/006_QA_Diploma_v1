@@ -23,4 +23,5 @@ services:
 
   simulator:
       build: ./gate-simulator
-      command: "npm start"
+      ports:
+        - '9999:9999'
