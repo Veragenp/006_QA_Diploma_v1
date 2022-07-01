@@ -1,6 +1,5 @@
 package ru.netology.web.page;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -16,13 +15,13 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-    public PaymentPage clickOnButtonPayCard() {
+    public PaymentBuyPage clickOnButtonPayCard() {
         clickOnButtonPayCard.click();
-        return new PaymentPage();
+        return new PaymentBuyPage();
     }
 
-    public PaymentPage clickOnButtonCreditCard() {
+    public PaymantCreditPage clickOnButtonCreditCard() {
         clickOnButtonCreditCard.click();
-        return new PaymentPage();
+        return new PaymantCreditPage();
     }
 }

@@ -1,12 +1,8 @@
 package ru.netology.web.test;
 
-import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashboardPage;
-import ru.netology.web.page.PaymentPage;
+import ru.netology.web.page.PaymentBuyPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +12,8 @@ public class FieldTest {
     void ShouldGetAlarmOk() { //проверка текста сообщения от банка - положительный
         open("http://localhost:8080");
         var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentPage();
+        var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
-        dashboardPage.clickOnButtonCreditCard();
         paymentPage.validCardApproved();
         paymentPage.checkAlarmOk();
     }
@@ -27,22 +22,22 @@ public class FieldTest {
     void ShouldGetAlarmFail() { //проверка текста сообщения от банка - отрицательный
         open("http://localhost:8080");
         var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentPage();
+        var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
         dashboardPage.clickOnButtonCreditCard();
-        paymentPage.validCardDenied();
+     //   paymentPage.validCardDenied();
         paymentPage.checkAlarmFail();
     }
 
-    @Test
-    void ShouldGetCurrentYear() { //проверка текста сообщения от банка - отрицательный
-        open("http://localhost:8080");
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentPage();
-        dashboardPage.clickOnButtonPayCard();
-        paymentPage.setCurrentData();
-
-    }
+//    @Test
+//    void ShouldGetCurrentYear() { //проверка текста сообщения от банка - отрицательный
+//        open("http://localhost:8080");
+//        var dashboardPage = new DashboardPage();
+//        var paymentPage = new PaymentBuyPage();
+//        dashboardPage.clickOnButtonPayCard();
+//        paymentPage.setCurrentData();
+//
+//    }
 
   //  class BonusServiceTest {
  //       @ParameterizedTest

@@ -4,16 +4,18 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class CurrentData {
-    public static void main(String args[]) {
+    public String currentYear(int plusYears) {
         LocalDate currentDate = LocalDate.now();
-        System.out.println("Current date: "+currentDate);
-        int currentYear = currentDate.getYear() - 2000;
-        System.out.println("Current year: "+currentYear);
-        int currentMonth = currentDate.getMonthValue() + 10;
-        String monthFormatted = String.format("%02d", currentMonth);
-        System.out.println("Current month: " + monthFormatted);
+        LocalDate dateDelivery = currentDate.plusYears(plusYears);
+        int currentYear1 = dateDelivery.getYear() - 2000;
+        String currentYear = String.format("%02d", currentYear1);
+        return currentYear;
     }
 
-
-
+    public String currentMonth() {
+        LocalDate currentDate = LocalDate.now();
+        int currentMonth1 = currentDate.getMonthValue();
+        String currentMonth = String.format("%02d",currentMonth1);
+        return currentMonth;
+    }
 }
