@@ -12,10 +12,11 @@ public class CurrentData {
         return currentYear;
     }
 
-    public String currentMonth() {
+    public String getCurrentMonth() {
         LocalDate currentDate = LocalDate.now();
         int currentMonth1 = currentDate.getMonthValue();
         String currentMonth = String.format("%02d",currentMonth1);
         return currentMonth;
     }
+
 }

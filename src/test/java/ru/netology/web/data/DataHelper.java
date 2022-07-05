@@ -16,7 +16,9 @@ public class DataHelper {
         private String owner;
         private String CVC;
 
+
        }
+
 
 
     public static CardInfo getCardInfoApproved() {
@@ -35,6 +37,40 @@ public class DataHelper {
 
         return new CardInfo("4444 4444 4444 4442", "01", "NIK DIK", "123");
     }
+
+    @Value
+    public static class CardInfo2 {
+        private String cardNumber;
+        private String month;
+        // private String year;
+        private String owner;
+        private String CVC;
+
+        public CardInfo2(String cardNumber, String month, String owner, String CVC) {
+            this.cardNumber = cardNumber;
+            this.month = month;
+            this.owner = owner;
+            this.CVC = CVC;
+        }
+
+        public String getCardNumber() {
+            return cardNumber;
+        }
+
+        public String getMonth() {
+            return month;
+        }
+
+        public String getOwner() {
+            return owner;
+        }
+
+        public String getCVC() {
+            return CVC;
+        }
+    }
+
+
 
 
 

@@ -2,6 +2,8 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import ru.netology.web.data.CurrentData;
 import ru.netology.web.data.DataHelper;
 
@@ -31,17 +33,51 @@ public class PaymentBuyPage {
 
     public PaymentBuyPage validCardApproved() { //проверка валидной карты
         var currentYear = new CurrentData();
-         cardNumberField.setValue(DataHelper.getCardInfoApproved().getCardNumber());
-       monthField.setValue(DataHelper.getCardInfoApproved().getMonth());
-       yearField.setValue(currentYear.currentYear(1));
+        cardNumberField.setValue(DataHelper.getCardInfoApproved().getCardNumber());
+        monthField.setValue(DataHelper.getCardInfoApproved().getMonth());
+        yearField.setValue(currentYear.currentYear(1));
         ownerField.setValue(DataHelper.getCardInfoApproved().getOwner());
         CVCField.setValue(DataHelper.getCardInfoApproved().getCVC());
-       continueButton.click();
-       // Configuration.timeout = 70000;
+        continueButton.click();
+        // Configuration.timeout = 70000;
         // alarmOK.shouldBe(visible); //не понятно пока как стабилизировать, чтобы дожидался страницы
         //alarmOkText.shouldBe(visible);
         return new PaymentBuyPage();
     }
+
+    public PaymentBuyPage validCardApprovedDataForYearPlusOne(String cardNumber, String month, String owner, String CVC) {
+        var currentYear = new CurrentData();
+        cardNumberField.setValue(cardNumber);
+        monthField.setValue(month);
+        yearField.setValue(currentYear.currentYear(1));
+        ownerField.setValue(owner);
+        CVCField.setValue(CVC);
+        continueButton.click();
+        Configuration.timeout = 70000;
+        return new PaymentBuyPage();
+    }
+
+    //проверки для сценария 2.3.1, с добавлением даты и месяца отдельно
+    public PaymentBuyPage validCardApprovedDataForYearPlusOneCurrentMonth(String cardNumber, String owner, String CVC) {
+        var currentData = new CurrentData();
+        cardNumberField.setValue(cardNumber);
+        monthField.setValue(currentData.getCurrentMonth());
+        yearField.setValue(currentData.currentYear(1));
+        ownerField.setValue(owner);
+        CVCField.setValue(CVC);
+        continueButton.click();
+        Configuration.timeout = 70000;
+        return new PaymentBuyPage();
+    }
+    public PaymentBuyPage checkAlarmFieldCardNumberWrongFormat() {
+        alarmCardNumberField.shouldHave(text("Неверный формат"));
+        return new PaymentBuyPage();
+
+
+    }
+
+    //Проверка что сообщение под полем Номер карты "неверный формат"
+
 
 //    public PaymentBuyPage validCardDenied() {
 //        cardNumberField.setValue(DataHelper.getCardInfoDenied().getCardNumber());
@@ -77,7 +113,14 @@ public class PaymentBuyPage {
     public void waitAlarmOk() {
         alarmOK.should(appear, Duration.ofSeconds(30)); //работает
         alarmOkText.shouldBe(appear);
-        }
+    }
+
+
+    public void shouldCheckParametrizedTest() {
+        alarmOK.should(appear, Duration.ofSeconds(30)); //работает
+        alarmOkText.shouldBe(appear);
+    }
+
 
 //    public PaymentBuyPage setCurrentData() {
 //        yearField.setValue(String.format("%02d", DataHelper.getCurrentData().getYear()));
@@ -100,4 +143,4 @@ public class PaymentBuyPage {
 //        return //??
 //    }return
 
-    }
+}
