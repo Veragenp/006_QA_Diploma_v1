@@ -25,7 +25,7 @@ public class CurrentData {
         return currentYearInt;
     }
 
-    public int getCurrentMonthInt() {
+    public int getCurrentMonthInt(int plusMonth) {
         LocalDate currentDate = LocalDate.now();
         int currentMonthInt = currentDate.getMonthValue();
         return currentMonthInt;

@@ -1,6 +1,5 @@
 package ru.netology.web.test;
 
-import com.sun.xml.bind.v2.TODO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -51,7 +50,7 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_1_Data.csv")
-    void ShouldCheckNegativeForCardNumberAndGetWrongFormatV1(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
+    void ShouldCheckCardNumberAndGetWrongFormatV1(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
@@ -63,7 +62,7 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_2_Data.csv")
-    void ShouldCheckNegativeForCardNumberAndGetWrongFormatV2(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
+    void ShouldCheckCardNumberAndGetWrongFormatV2(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
@@ -77,7 +76,7 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_3_Data.csv")
-    void ShouldCheckNegativeForCardNumberAndGetWrongFormatV3(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
+    void ShouldCheckCardNumberAndGetWrongFormatV3(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
@@ -89,8 +88,8 @@ public class FieldTest {
 
     @ParameterizedTest
     @CsvFileSource(
-            resources = "/data/2_3_4_DataMonth.csv")
-    void ShouldCheckNegativeForMonthAndGetWrongFormatV3(int plusYear, String month, String cardNumber, String owner, String cvc, String expectedMonth, String alarmText) {
+            resources = "/data/2_3_4...6_DataMonth.csv")
+    void ShouldCheckMonthAndGetWrongFormat(int plusYear, String month, String cardNumber, String owner, String cvc, String expectedMonth, String alarmText) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
@@ -100,6 +99,18 @@ public class FieldTest {
         assertEquals(expectedMonth, actualMonth);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(
+            resources = "/data/2_3_4...6_DataMonth.csv")
+    void ShouldCheckYearAndGetAlarm(int plusYear, String month, String cardNumber, String owner, String cvc, String expectedMonth, String alarmText) {
+        var dashboardPage = new DashboardPage();
+        var paymentPage = new PaymentBuyPage();
+        dashboardPage.clickOnButtonPayCard();
+        paymentPage.checkFieldMonth(plusYear,month, cardNumber, owner, cvc);
+        paymentPage.checkAlarmFieldMonth(alarmText);
+        String actualMonth = paymentPage.getFieldMonth();
+        assertEquals(expectedMonth, actualMonth);
+    }
 
 
 }

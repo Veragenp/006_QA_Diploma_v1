@@ -102,7 +102,7 @@ public class PaymentBuyPage {
     public PaymentBuyPage checkField (int plusYear, int plusMonth, String cardNumber, String owner, String CVC) {
         var currentData = new CurrentData();
         int currentYearInt = currentData.currentYearInt(0);
-        int currentMonthInt = currentData.getCurrentMonthInt();
+        int currentMonthInt = currentData.getCurrentMonthInt(0);
         int monthInt = currentMonthInt + plusMonth;
         int yearInt = currentYearInt + plusYear;
 //        if(monthInt < currentMonthInt & yearInt == currentYearInt) {
@@ -134,7 +134,7 @@ public class PaymentBuyPage {
     public PaymentBuyPage checkFieldMonth (int plusYear, String month, String cardNumber, String owner, String CVC) {
         var currentData = new CurrentData();
         int currentYearInt = currentData.currentYearInt(0);
-        int currentMonthInt = currentData.getCurrentMonthInt();
+        int currentMonthInt = currentData.getCurrentMonthInt(0);
         int yearInt = currentYearInt + plusYear;
         String year = String.format("%02d",yearInt);
         cardNumberField.setValue(cardNumber);

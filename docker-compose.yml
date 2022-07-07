@@ -7,7 +7,7 @@ services:
       - '3306:3306'
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_DATABASE=app
+      - MYSQL_DATABASE=app1
       - MYSQL_USER=app
       - MYSQL_PASSWORD=pass
 
@@ -17,8 +17,8 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=user
+      - POSTGRES_DB=app2
+      - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
 
   simulator:

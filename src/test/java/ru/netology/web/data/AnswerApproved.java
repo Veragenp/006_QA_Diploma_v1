@@ -1,19 +1,9 @@
 package ru.netology.web.data;
 
 public class AnswerApproved {
-    private String statusApp;
-    //private String statusDen;
+    private String status;
 
-    public AnswerApproved(String statusApp, String statusDen) {
-        this.statusApp = statusApp;
-     //   this.statusDen = statusDen;
+    public String getStatus() {
+        return status;
     }
-
-    public String getStatusApp() {
-        return statusApp;
-    }
-//
-//    public String getStatusDen() {
-//        return statusDen;
-//    }
 }
