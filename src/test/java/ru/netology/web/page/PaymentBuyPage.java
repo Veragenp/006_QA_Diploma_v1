@@ -2,8 +2,6 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import ru.netology.web.data.CurrentData;
 import ru.netology.web.data.DataHelper;
 
@@ -69,12 +67,105 @@ public class PaymentBuyPage {
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
     }
-    public PaymentBuyPage checkAlarmFieldCardNumberWrongFormat() {
-        alarmCardNumberField.shouldHave(text("Неверный формат"));
+    //проверка сообщения под полем Номер карты
+    public PaymentBuyPage checkAlarmFieldCardNumber(String textAlarm) {
+        alarmCardNumberField.shouldHave(text(textAlarm));
         return new PaymentBuyPage();
 
+    }
+
+    //проверка сообщения под полем Месяц
+    public PaymentBuyPage checkAlarmFieldMonth(String textAlarm) {
+        alarmMonthField.shouldHave(text(textAlarm));
+        return new PaymentBuyPage();
+    }
+
+    //проверка сообщения под полем Год
+    public PaymentBuyPage checkAlarmFieldYear(String textAlarm) {
+        alarmYearField.shouldHave(text(textAlarm));
+        return new PaymentBuyPage();
+    }
+
+    //проверка сообщения под полем Владелец
+    public PaymentBuyPage checkAlarmFieldOwner(String textAlarm) {
+        alarmOwnerField.shouldHave(text(textAlarm));
+        return new PaymentBuyPage();
+    }
+
+    //проверка сообщения под полем CVC
+    public PaymentBuyPage checkAlarmFieldCvc(String textAlarm) {
+        alarmCVCField.shouldHave(text(textAlarm));
+        return new PaymentBuyPage();
+    }
+
+    //Общая проверка на поля кроме года и месяца
+    public PaymentBuyPage checkField (int plusYear, int plusMonth, String cardNumber, String owner, String CVC) {
+        var currentData = new CurrentData();
+        int currentYearInt = currentData.currentYearInt(0);
+        int currentMonthInt = currentData.getCurrentMonthInt();
+        int monthInt = currentMonthInt + plusMonth;
+        int yearInt = currentYearInt + plusYear;
+//        if(monthInt < currentMonthInt & yearInt == currentYearInt) {
+//            monthInt = 0;
+//            yearInt = currentYearInt;
+//        }
+//        if(monthInt >= currentMonthInt & yearInt >= currentYearInt) {
+//           monthInt = monthInt;
+//           yearInt = yearInt;
+//        }
+//        if(yearInt < currentYearInt) {
+//            monthInt = monthInt;
+//            yearInt = 0;
+//        }
+        String month = String.format("%02d",monthInt);
+        String year = String.format("%02d",yearInt);
+        cardNumberField.setValue(cardNumber);
+        monthField.setValue(month);
+        yearField.setValue(year);
+        ownerField.setValue(owner);
+        CVCField.setValue(CVC);
+        continueButton.click();
+        Configuration.timeout = 70000;
+        return new PaymentBuyPage();
 
     }
+
+    //Проверка на поле месяц
+    public PaymentBuyPage checkFieldMonth (int plusYear, String month, String cardNumber, String owner, String CVC) {
+        var currentData = new CurrentData();
+        int currentYearInt = currentData.currentYearInt(0);
+        int currentMonthInt = currentData.getCurrentMonthInt();
+        int yearInt = currentYearInt + plusYear;
+        String year = String.format("%02d",yearInt);
+        cardNumberField.setValue(cardNumber);
+        monthField.setValue(month);
+        yearField.setValue(year);
+        ownerField.setValue(owner);
+        CVCField.setValue(CVC);
+        continueButton.click();
+        Configuration.timeout = 70000;
+        return new PaymentBuyPage();
+
+    }
+
+
+
+    public String getFieldCardNumber() {
+        if (cardNumberField.getTagName().equals("input")) {
+            return cardNumberField.getValue();
+        } else {
+            return cardNumberField.getText();
+        }
+    }
+
+    public String getFieldMonth() {
+        if (monthField.getTagName().equals("input")) {
+            return monthField.getValue();
+        } else {
+            return monthField.getText();
+        }
+    }
+
 
     //Проверка что сообщение под полем Номер карты "неверный формат"
 

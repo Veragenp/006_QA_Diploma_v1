@@ -1,7 +1,6 @@
 package ru.netology.web.data;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 public class CurrentData {
     public String currentYear(int plusYears) {
@@ -17,6 +16,19 @@ public class CurrentData {
         int currentMonth1 = currentDate.getMonthValue();
         String currentMonth = String.format("%02d",currentMonth1);
         return currentMonth;
+    }
+
+    public int currentYearInt(int plusYears) {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate dateDelivery = currentDate.plusYears(plusYears);
+        int currentYearInt = dateDelivery.getYear() - 2000;
+        return currentYearInt;
+    }
+
+    public int getCurrentMonthInt() {
+        LocalDate currentDate = LocalDate.now();
+        int currentMonthInt = currentDate.getMonthValue();
+        return currentMonthInt;
     }
 
 }
