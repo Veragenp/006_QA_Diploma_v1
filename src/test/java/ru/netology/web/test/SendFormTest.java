@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import ru.netology.web.data.AnswerApproved;
 import ru.netology.web.data.CardDate;
 import ru.netology.web.data.CurrentData;
+import ru.netology.web.data.SettingsSQL;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.PaymentBuyPage;
 
@@ -83,6 +84,7 @@ public class SendFormTest {
                 .extract().as(AnswerApproved.class);
         Assertions.assertNotNull(answer.getStatus());
         Assertions.assertEquals(expectedAnswer, answer.getStatus());
+        SettingsSQL.getVerificationCode();
 
 
     }
