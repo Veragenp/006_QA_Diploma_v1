@@ -1,4 +1,4 @@
-package ru.netology.web.test;
+package ru.netology.web.data;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -6,8 +6,6 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import ru.netology.web.data.AnswerApproved;
-import ru.netology.web.data.CardDate;
 
 import static io.restassured.RestAssured.given;
 
@@ -25,16 +23,22 @@ public class SpecificationApi {
                 .build();
     }
 
+    public static ResponseSpecification responseSpecFail500() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(500)
+                .build();
+    }
+
     public static void installSpecification(RequestSpecification request, ResponseSpecification response) {
         RestAssured.requestSpecification = request;
         RestAssured.responseSpecification = response;
     }
     public static void postRequest() {
-        AnswerApproved answer = given()
+        Answer200 answer = given()
                 .body(CardDate.class)
                 .when()
                 .post("api/v1/pay")
                 .then().log().all()
-                .extract().as(AnswerApproved.class);
+                .extract().as(Answer200.class);
     }
 }

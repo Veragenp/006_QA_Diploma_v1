@@ -5,21 +5,31 @@ import java.time.LocalDate;
 public class CardDate {
 
     private String number;
+    private String year;
+    private String month;
     private String holder;
     private String cvc;
-    private String month;
-    private String year;
+
+
 
     public CardDate(String number, String year, String month, String holder, String cvc) {
-        this.number = number;
-        this.holder = holder;
         this.cvc = cvc;
+        this.holder = holder;
         this.month = month;
+        this.number = number;
         this.year = year;
     }
 
     public String getNumber() {
         return number;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getMonth() {
+        return month;
     }
 
     public String getHolder() {
@@ -28,13 +38,5 @@ public class CardDate {
 
     public String getCvc() {
         return cvc;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public String getYear() {
-        return year;
     }
 }

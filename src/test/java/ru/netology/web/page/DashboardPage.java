@@ -20,8 +20,8 @@ public class DashboardPage {
         return new PaymentBuyPage();
     }
 
-    public PaymantCreditPage clickOnButtonCreditCard() {
+    public PaymentCreditPage clickOnButtonCreditCard() {
         clickOnButtonCreditCard.click();
-        return new PaymantCreditPage();
+        return new PaymentCreditPage();
     }
 }

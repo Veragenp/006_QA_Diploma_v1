@@ -13,7 +13,7 @@ public class SettingsSQL {
     public SettingsSQL() {
     }
     public static String getStatusOperationFromDb() {
-        String url = System.getProperty("db.url");
+        String url = System.getProperty("dbSQL.url");
         String statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1;";
         val runner = new QueryRunner();
         try (

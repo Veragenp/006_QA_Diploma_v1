@@ -16,13 +16,13 @@ public class PaymentBuyPage {
     private SelenideElement monthField = $("*[placeholder='08']");
     private SelenideElement yearField = $("*[placeholder='22']");
     private SelenideElement ownerField = $x("//*[text()='Владелец']//following-sibling::*//*");
-    private SelenideElement CVCField = $("*[placeholder='999']");
+    private SelenideElement cvcField = $("*[placeholder='999']");
     private SelenideElement continueButton = $x("//span[contains(@class, 'spin')]//..");
     private SelenideElement alarmCardNumberField = $x("//*[text()='Номер карты']//following-sibling::span//following-sibling::span");//Неверный формат/
     private SelenideElement alarmMonthField = $x("//*[text()='Месяц']//following-sibling::span//following-sibling::span"); //Истек срок действия карты/Неверно указан срок действия карты/Поле пустое
     private SelenideElement alarmYearField = $x("//*[text()='Год']//following-sibling::span//following-sibling::span"); //Истек срок действия карты/Неверно указан срок действия карты/Поле пустое
     private SelenideElement alarmOwnerField = $x("//*[text()='Владелец']//following-sibling::span//following-sibling::span"); //Неверный формат/
-    private SelenideElement alarmCVCField = $x("//*[text()='CVC/CVV']//following-sibling::span//following-sibling::span"); //Неверный формат/
+    private SelenideElement alarmCvcField = $x("//*[text()='CVC/CVV']//following-sibling::span//following-sibling::span"); //Неверный формат/
     private SelenideElement alarmOK = $x("//div[contains(@class,'status_ok')]//div[@class='notification__title']"); //Успешно
     private SelenideElement alarmOkText = $x("//div[contains(@class,'status_ok')]//div[@class='notification__content']"); //Операция одобрена Банком.
     private SelenideElement alarmFail = $x("//div[contains(@class,'error')]//div[@class='notification__title']"); //Ошибка
@@ -35,7 +35,7 @@ public class PaymentBuyPage {
         monthField.setValue(DataHelper.getCardInfoApproved().getMonth());
         yearField.setValue(currentYear.currentYear(1));
         ownerField.setValue(DataHelper.getCardInfoApproved().getOwner());
-        CVCField.setValue(DataHelper.getCardInfoApproved().getCVC());
+        cvcField.setValue(DataHelper.getCardInfoApproved().getCVC());
         continueButton.click();
         // Configuration.timeout = 70000;
         // alarmOK.shouldBe(visible); //не понятно пока как стабилизировать, чтобы дожидался страницы
@@ -49,7 +49,7 @@ public class PaymentBuyPage {
         monthField.setValue(month);
         yearField.setValue(currentYear.currentYear(1));
         ownerField.setValue(owner);
-        CVCField.setValue(CVC);
+        cvcField.setValue(CVC);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
@@ -62,7 +62,7 @@ public class PaymentBuyPage {
         monthField.setValue(currentData.getCurrentMonth());
         yearField.setValue(currentData.currentYear(1));
         ownerField.setValue(owner);
-        CVCField.setValue(CVC);
+        cvcField.setValue(CVC);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
@@ -94,7 +94,7 @@ public class PaymentBuyPage {
 
     //проверка сообщения под полем CVC
     public PaymentBuyPage checkAlarmFieldCvc(String textAlarm) {
-        alarmCVCField.shouldHave(text(textAlarm));
+        alarmCvcField.shouldHave(text(textAlarm));
         return new PaymentBuyPage();
     }
 
@@ -105,6 +105,7 @@ public class PaymentBuyPage {
         int currentMonthInt = currentData.getCurrentMonthInt(0);
         int monthInt = currentMonthInt + plusMonth;
         int yearInt = currentYearInt + plusYear;
+        int monthRemainder = 12 - currentYearInt;
 //        if(monthInt < currentMonthInt & yearInt == currentYearInt) {
 //            monthInt = 0;
 //            yearInt = currentYearInt;
@@ -123,12 +124,13 @@ public class PaymentBuyPage {
         monthField.setValue(month);
         yearField.setValue(year);
         ownerField.setValue(owner);
-        CVCField.setValue(CVC);
+        cvcField.setValue(CVC);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
 
     }
+
 
     //Проверка на поле месяц
     public PaymentBuyPage checkFieldMonth (int plusYear, String month, String cardNumber, String owner, String CVC) {
@@ -141,7 +143,24 @@ public class PaymentBuyPage {
         monthField.setValue(month);
         yearField.setValue(year);
         ownerField.setValue(owner);
-        CVCField.setValue(CVC);
+        cvcField.setValue(CVC);
+        continueButton.click();
+        Configuration.timeout = 70000;
+        return new PaymentBuyPage();
+
+    }
+    //проверка поле год
+    public PaymentBuyPage checkFieldYear (String year, int plusMonth, String cardNumber, String owner, String CVC) {
+        var currentData = new CurrentData();
+        int currentYearInt = currentData.currentYearInt(0);
+        int currentMonthInt = currentData.getCurrentMonthInt(0);
+        int monthInt = currentMonthInt + plusMonth;
+        String month = String.format("%02d",monthInt);
+        cardNumberField.setValue(cardNumber);
+        monthField.setValue(month);
+        yearField.setValue(year);
+        ownerField.setValue(owner);
+        cvcField.setValue(CVC);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
@@ -166,19 +185,30 @@ public class PaymentBuyPage {
         }
     }
 
+    public String getFieldYear() {
+        if (yearField.getTagName().equals("input")) {
+            return yearField.getValue();
+        } else {
+            return yearField.getText();
+        }
+    }
 
-    //Проверка что сообщение под полем Номер карты "неверный формат"
+    public String getFieldCvc() {
+        if (cvcField.getTagName().equals("input")) {
+            return cvcField.getValue();
+        } else {
+            return cvcField.getText();
+        }
+    }
+    public String getFieldOwner() {
+        if (ownerField.getTagName().equals("input")) {
+            return ownerField.getValue();
+        } else {
+            return ownerField.getText();
+        }
+    }
 
 
-//    public PaymentBuyPage validCardDenied() {
-//        cardNumberField.setValue(DataHelper.getCardInfoDenied().getCardNumber());
-//        monthField.setValue(DataHelper.getCardInfoDenied().getMonth());
-//        yearField.setValue(DataHelper.getCurrentYear());
-//        ownerField.setValue(DataHelper.getCardInfoDenied().getOwner());
-//        CVCField.setValue(DataHelper.getCardInfoDenied().getCVC());
-//        continueButton.click();
-//        return new PaymentBuyPage();
-//    }
 
     public PaymentBuyPage checkAlarmField() {
         alarmCardNumberField.shouldHave(text("Неверный формат"));
@@ -212,26 +242,5 @@ public class PaymentBuyPage {
         alarmOkText.shouldBe(appear);
     }
 
-
-//    public PaymentBuyPage setCurrentData() {
-//        yearField.setValue(String.format("%02d", DataHelper.getCurrentData().getYear()));
-//        monthField.setValue(String.format("%02d", DataHelper.getCurrentData().getMonth()));
-//        return new PaymentBuyPage();
-//    }
-
-//    public int checkData(int month, int year) {
-//        int currentMonth = DataHelper.getCurrentData().getMonth();
-//        int currentYear = DataHelper.getCurrentData().getYear();
-//        if (month < currentMonth & year == currentYear) {
-//            return currentMonth;
-//        }
-//        if (month >= currentMonth & year >= currentYear) {
-//        return month;
-//        }
-//        if (year < currentYear) {
-//            return currentYear;
-//        }
-//        return //??
-//    }return
 
 }

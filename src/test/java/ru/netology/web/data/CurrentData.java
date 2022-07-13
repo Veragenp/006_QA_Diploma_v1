@@ -11,6 +11,14 @@ public class CurrentData {
         return currentYear;
     }
 
+    public String currentMonth(int plusMonth) {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate dateDelivery = currentDate.plusMonths(plusMonth);
+        int currentMonth1 = currentDate.getMonthValue();
+        String currentMonth = String.format("%02d", currentMonth1);
+        return currentMonth;
+    }
+
     public String getCurrentMonth() {
         LocalDate currentDate = LocalDate.now();
         int currentMonth1 = currentDate.getMonthValue();

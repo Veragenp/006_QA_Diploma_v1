@@ -1,6 +1,6 @@
 package ru.netology.web.data;
 
-public class AnswerApproved {
+public class Answer200 {
     private String status;
 
     public String getStatus() {
