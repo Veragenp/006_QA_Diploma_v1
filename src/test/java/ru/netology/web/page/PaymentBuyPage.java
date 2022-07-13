@@ -3,7 +3,6 @@ package ru.netology.web.page;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.web.data.CurrentData;
-import ru.netology.web.data.DataHelper;
 
 import java.time.Duration;
 
@@ -28,45 +27,6 @@ public class PaymentBuyPage {
     private SelenideElement alarmFail = $x("//div[contains(@class,'error')]//div[@class='notification__title']"); //Ошибка
     private SelenideElement alarmFailText = $x("//div[contains(@class,'error')]//div[@class='notification__content']"); //Ошибка! Банк отказал в проведении операции.
 
-
-    public PaymentBuyPage validCardApproved() { //проверка валидной карты
-        var currentYear = new CurrentData();
-        cardNumberField.setValue(DataHelper.getCardInfoApproved().getCardNumber());
-        monthField.setValue(DataHelper.getCardInfoApproved().getMonth());
-        yearField.setValue(currentYear.currentYear(1));
-        ownerField.setValue(DataHelper.getCardInfoApproved().getOwner());
-        cvcField.setValue(DataHelper.getCardInfoApproved().getCVC());
-        continueButton.click();
-        // Configuration.timeout = 70000;
-        // alarmOK.shouldBe(visible); //не понятно пока как стабилизировать, чтобы дожидался страницы
-        //alarmOkText.shouldBe(visible);
-        return new PaymentBuyPage();
-    }
-
-    public PaymentBuyPage validCardApprovedDataForYearPlusOne(String cardNumber, String month, String owner, String CVC) {
-        var currentYear = new CurrentData();
-        cardNumberField.setValue(cardNumber);
-        monthField.setValue(month);
-        yearField.setValue(currentYear.currentYear(1));
-        ownerField.setValue(owner);
-        cvcField.setValue(CVC);
-        continueButton.click();
-        Configuration.timeout = 70000;
-        return new PaymentBuyPage();
-    }
-
-    //проверки для сценария 2.3.1, с добавлением даты и месяца отдельно
-    public PaymentBuyPage validCardApprovedDataForYearPlusOneCurrentMonth(String cardNumber, String owner, String CVC) {
-        var currentData = new CurrentData();
-        cardNumberField.setValue(cardNumber);
-        monthField.setValue(currentData.getCurrentMonth());
-        yearField.setValue(currentData.currentYear(1));
-        ownerField.setValue(owner);
-        cvcField.setValue(CVC);
-        continueButton.click();
-        Configuration.timeout = 70000;
-        return new PaymentBuyPage();
-    }
     //проверка сообщения под полем Номер карты
     public PaymentBuyPage checkAlarmFieldCardNumber(String textAlarm) {
         alarmCardNumberField.shouldHave(text(textAlarm));
@@ -209,11 +169,9 @@ public class PaymentBuyPage {
     }
 
 
-
     public PaymentBuyPage checkAlarmField() {
         alarmCardNumberField.shouldHave(text("Неверный формат"));
         return new PaymentBuyPage();
-
 
     }
 
@@ -221,7 +179,6 @@ public class PaymentBuyPage {
         alarmFail.shouldHave(text("Ошибка"));
         alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."));
         return new PaymentBuyPage();
-
 
     }
 

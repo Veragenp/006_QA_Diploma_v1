@@ -7,13 +7,13 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Answer500 {
-    private Timestamp timestamp;
+    private String timestamp;
     private Integer status;
     private String error;
     private String message;
     private String path;
 
-    public Answer500(Timestamp timestamp, Integer status, String error, String message, String path) {
+    public Answer500(String timestamp, Integer status, String error, String message, String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;
@@ -21,7 +21,7 @@ public class Answer500 {
         this.path = path;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
