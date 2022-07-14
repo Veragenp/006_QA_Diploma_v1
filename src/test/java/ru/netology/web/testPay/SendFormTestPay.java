@@ -1,6 +1,9 @@
 package ru.netology.web.testPay;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,7 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SendFormTestPay {
     private final static String URL = "http://localhost:8080/";
-    @BeforeEach
+   @BeforeAll
+   static void setUpAll(){
+       SelenideLogger.addListener("allure", new AllureSelenide());
+   }
+       @BeforeEach
     public void setUp() {
         open("http://localhost:8080");
     }
@@ -124,7 +131,8 @@ public class SendFormTestPay {
                 .post("api/v1/pay")
                 .then().log().all()
                 .extract().as(Answer500.class);
-      // Assertions.assertEquals("400 Bad Request", answer.getError());
+       Assertions.assertEquals("400 Bad Request", answer.getMessage());
+       Assertions.assertEquals(500, answer.getStatus());
            }
 
 

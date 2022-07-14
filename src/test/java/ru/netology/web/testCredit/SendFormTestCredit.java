@@ -1,6 +1,9 @@
 package ru.netology.web.testCredit;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,6 +17,10 @@ import static com.codeborne.selenide.Selenide.open;
 import static io.restassured.RestAssured.given;
 
 public class SendFormTestCredit {
+    @BeforeAll
+    static void setUpAll(){
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
     private final static String URL = "http://localhost:8080/";
     @BeforeEach
     public void setUp() {
@@ -111,7 +118,7 @@ public class SendFormTestCredit {
             resources = "/data/2_4_3_Data.csv")
     void ShouldCheckNotValidDataAndGet500Answer(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
         var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentBuyPage();
+        var paymentPage = new PaymentCreditPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
@@ -124,9 +131,8 @@ public class SendFormTestCredit {
                 .post("api/v1/pay")
                 .then().log().all()
                 .extract().as(Answer500.class);
-        // Assertions.assertEquals("400 Bad Request", answer.getError());
+        Assertions.assertEquals("400 Bad Request", answer.getMessage());
+        Assertions.assertEquals(500, answer.getStatus());
     }
-
-
 
 }

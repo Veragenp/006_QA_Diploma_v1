@@ -1,5 +1,9 @@
 package ru.netology.web.testPay;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import com.sun.xml.bind.v2.TODO;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -12,6 +16,10 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FieldTest {
+    @BeforeAll
+    static void setUpAll(){
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
 
     @BeforeEach
     public void setUp() {
@@ -20,6 +28,7 @@ public class FieldTest {
 
     @ParameterizedTest
     @CsvFileSource(
+            //TODO все же надо понять как быть со значениями: валидные они или нет 4444 4444 4444 4441 2, 0000 0000 0000 0000
             resources = "/data/2_3_1...2_DataCardNumber.csv")
     void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumber(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
         var dashboardPage = new DashboardPage();

@@ -13,7 +13,7 @@ public class SettingsSQL {
     public SettingsSQL() {
     }
     public static String getStatusOperationFromDbPayment() {
-        String url = System.getProperty("dbSQL.url");
+        String url = System.getProperty("dbPostgre.url");
         String statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1;";
         val runner = new QueryRunner();
         try (
@@ -32,7 +32,7 @@ public class SettingsSQL {
 
     }
     public static String getStatusOperationFromDbCredit() {
-        String url = System.getProperty("dbSQL.url");
+        String url = System.getProperty("dbPostgre.url");
         String statusSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1;";
         val runner = new QueryRunner();
         try (
