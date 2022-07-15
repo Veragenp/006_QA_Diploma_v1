@@ -25,6 +25,8 @@ public class SendFormTestPay {
        @BeforeEach
     public void setUp() {
         open("http://localhost:8080");
+           SettingsSQL.cleanseTableCredit();
+           SettingsSQL.cleanseTablePayment();
     }
     @Test
     void ShouldOpenFormPay() { //проверка текста сообщения от банка - положительный
@@ -88,19 +90,11 @@ public class SendFormTestPay {
         Assertions.assertEquals(expectedAnswer, answer.getStatus());
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbPayment());
     }
-@Test
-void shouldDel() {
-       TestSqlExecution.cleanseTable("payment_entity");
-    TestSqlExecution.cleanseTable("credit_request_entity");
-
-}
 
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_4_1_Data.csv")
     void ShouldCheckNotValidDataAndGetDeclinedAnswer(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        TestSqlExecution.cleanseTable("payment_entity");
-        TestSqlExecution.cleanseTable("credit_request_entity");
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();

@@ -2,9 +2,6 @@ package ru.netology.web.testCredit;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import lombok.val;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,13 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.netology.web.data.*;
 import ru.netology.web.page.DashboardPage;
-import ru.netology.web.page.PaymentBuyPage;
 import ru.netology.web.page.PaymentCreditPage;
-import ru.netology.web.testPay.TestSqlExecution;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import static com.codeborne.selenide.Selenide.open;
 import static io.restassured.RestAssured.given;
@@ -34,6 +25,8 @@ public class SendFormTestCredit {
     @BeforeEach
     public void setUp() {
         open("http://localhost:8080");
+        SettingsSQL.cleanseTableCredit();
+        SettingsSQL.cleanseTablePayment();
     }
     @Test
     public void shouldDel() {

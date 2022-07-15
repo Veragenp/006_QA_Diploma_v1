@@ -50,7 +50,7 @@ public class SettingsSQL {
     public static void cleanseTableCredit() {
 
         String url = System.getProperty("dbPostgre.url");
-        String statusSQL = "truncate table credit_request_entity;";
+        String statusSQL = "DELETE FROM table credit_request_entity;";
         val runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(//
@@ -66,7 +66,7 @@ public class SettingsSQL {
     public static void cleanseTablePayment() {
 
         String url = System.getProperty("dbPostgre.url");
-        String statusSQL = "truncate table payment_entity;";
+        String statusSQL = "DELETE FROM payment_entity;";
         val runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(//
