@@ -32,6 +32,7 @@ public class SendFormTestPay {
         open("http://localhost:8080");
         SettingsSQL.cleanseTableCredit();
         SettingsSQL.cleanseTablePayment();
+        SettingsSQL.cleanseTableOrder();
     }
 
     @Test
@@ -89,10 +90,11 @@ public class SendFormTestPay {
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkFieldMonth(plusYear, month, cardNumber, owner, cvc);
-        paymentPage.checkAlarm();
+        paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
     @ParameterizedTest
@@ -136,10 +138,11 @@ public class SendFormTestPay {
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
-        paymentPage.checkAlarm();
+        paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
 
@@ -184,10 +187,11 @@ public class SendFormTestPay {
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
-        paymentPage.checkAlarm();//TODO сделать метод, что сообщение не пустое!
+        paymentPage.checkAlarmOk();//TODO сделать метод, что сообщение не пустое!
         String expectedAnswer = "DECLINED";
         Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
     @ParameterizedTest
@@ -230,9 +234,10 @@ public class SendFormTestPay {
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
-        paymentPage.checkAlarm();
+        paymentPage.checkAlarmFail();
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNull(SettingsSQL.getIdFromOrder());
     }
 
 

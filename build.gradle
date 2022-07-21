@@ -45,4 +45,6 @@ test {
     systemProperty 'dbPostgre.url=jdbc:postgresql://localhost:5432/app', System.getProperty('dbPostgre.url')
     systemProperty 'dbMySql.url=jdbc:mysql://localhost:3306/app', System.getProperty('dbMySql.url')
     systemProperty 'db.url', System.getProperty('db.url')
+
+
 }

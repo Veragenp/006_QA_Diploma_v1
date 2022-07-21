@@ -14,7 +14,7 @@ public class SettingsSQL {
     }
     @Step("Получение статуса операции из таблицы payment_entity базы данных")
     public static String getStatusOperationFromDbPayment() {
-        String url = System.getProperty("db.url");
+        String url = System.getProperty("dbMySql.url");
         String statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1;";
         val runner = new QueryRunner();
         try (
@@ -32,7 +32,7 @@ public class SettingsSQL {
     @Step("Получение статуса операции из таблицы credit_request_entity базы данных")
     public static String getStatusOperationFromDbCredit() {
 
-        String url = System.getProperty("db.url");
+        String url = System.getProperty("dbMySql.url");
         String statusSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1;";
         val runner = new QueryRunner();
         try (
@@ -47,16 +47,35 @@ public class SettingsSQL {
         return statusSQL;
 
     }
-    @Step("Удаление всех данных таблицы из credit_request_entity")
-    public static void cleanseTableCredit() {
+    @Step("Получение статуса операции из таблицы credit_request_entity базы данных")
+    public static String getIdFromOrder() {
 
-        String url = System.getProperty("db.url");
-        String statusSQL = "DELETE FROM credit_request_entity;";
+        String url = System.getProperty("dbMySql.url");
+        String statusSQL = "SELECT id FROM order_entity ORDER BY created DESC LIMIT 1;";
         val runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(//
                         url, "app", "pass")) {
             val status = runner.query(conn, statusSQL, new ScalarHandler<>());
+            return (String) status;
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return statusSQL;
+
+    }
+
+    @Step("Удаление всех данных таблицы из credit_request_entity")
+    public static void cleanseTableCredit() {
+
+        String url = System.getProperty("dbMySql.url");
+        String statusSQL = "DELETE FROM credit_request_entity;";
+        val runner = new QueryRunner();
+        try (
+                Connection conn = DriverManager.getConnection(//
+                        url, "app", "pass")) {
+            val status = runner.execute(conn, statusSQL, new ScalarHandler<>());
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -65,13 +84,30 @@ public class SettingsSQL {
     @Step("Удаление всех данных таблицы из payment_entity")
     public static void cleanseTablePayment() {
 
-        String url = System.getProperty("db.url");
+        String url = System.getProperty("dbMySql.url");
         String statusSQL = "DELETE FROM payment_entity;";
         val runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(//
                         url, "app", "pass")) {
-            val status = runner.query(conn, statusSQL, new ScalarHandler<>());
+            val status = runner.execute(conn, statusSQL, new ScalarHandler<>());
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+
+    @Step("Удаление всех данных таблицы из order_entity")
+    public static void cleanseTableOrder() {
+
+        String url = System.getProperty("dbMySql.url");
+        String statusSQL = "DELETE FROM order_entity;";
+        val runner = new QueryRunner();
+        try (
+                Connection conn = DriverManager.getConnection(//
+                        url, "app", "pass")) {
+            val status = runner.execute(conn, statusSQL, new ScalarHandler<>());
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

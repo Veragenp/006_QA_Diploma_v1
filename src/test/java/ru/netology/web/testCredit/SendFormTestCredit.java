@@ -28,6 +28,7 @@ public class SendFormTestCredit {
         open("http://localhost:8080");
         SettingsSQL.cleanseTableCredit();
         SettingsSQL.cleanseTablePayment();
+        SettingsSQL.cleanseTableOrder();
     }
 
     @Test
@@ -82,7 +83,6 @@ public class SendFormTestCredit {
     @CsvFileSource(
             resources = "/data/2_1_1_1_Data.csv")
     void ShouldCheckValidDataAndGetEntryInDb(String month, int plusYear,String cardNumber, String owner, String cvc) {
-        SettingsSQL.cleanseTableCredit();
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentCreditPage();
         dashboardPage.clickOnButtonCreditCard();
@@ -91,6 +91,7 @@ public class SendFormTestCredit {
         String expectedAnswer = "APPROVED";
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
     @ParameterizedTest
@@ -138,6 +139,7 @@ public class SendFormTestCredit {
         String expectedAnswer = "APPROVED";
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
 
@@ -185,6 +187,7 @@ public class SendFormTestCredit {
         String expectedAnswer = "DECLINED";
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
     @ParameterizedTest
@@ -230,6 +233,7 @@ public class SendFormTestCredit {
         paymentPage.checkAlarmFail();
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
     }
 
 

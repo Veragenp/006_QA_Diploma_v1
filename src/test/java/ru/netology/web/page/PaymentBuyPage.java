@@ -2,11 +2,12 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.ex.ElementNotFound;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
+import org.jsoup.select.Elements;
+import org.openqa.selenium.WebDriver;
 import ru.netology.web.data.CurrentData;
 
+import javax.lang.model.element.Element;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
@@ -147,6 +148,7 @@ public class PaymentBuyPage {
             return cardNumberField.getText();
         }
     }
+
     @Step("Получение значения в поле 'Месяц'")
     public String getFieldMonth() {
         if (monthField.getTagName().equals("input")) {
@@ -155,6 +157,7 @@ public class PaymentBuyPage {
             return monthField.getText();
         }
     }
+
     @Step("Получение значения в поле 'Год'")
     public String getFieldYear() {
         if (yearField.getTagName().equals("input")) {
@@ -163,6 +166,7 @@ public class PaymentBuyPage {
             return yearField.getText();
         }
     }
+
     @Step("Получение значения в поле 'CVC/CVV'")
     public String getFieldCvc() {
         if (cvcField.getTagName().equals("input")) {
@@ -171,6 +175,7 @@ public class PaymentBuyPage {
             return cvcField.getText();
         }
     }
+
     @Step("Получение значения в поле 'Владелец'")
     public String getFieldOwner() {
         if (ownerField.getTagName().equals("input")) {
@@ -194,17 +199,19 @@ public class PaymentBuyPage {
         return new PaymentBuyPage();
 
     }
+
     @Step("Получение сообщения от банка 'Успешно'")
     public PaymentBuyPage checkAlarmOk() {
         alarmOK.shouldHave(text("Успешно"));
         alarmOkText.shouldHave(text("Операция одобрена Банком."));
         return new PaymentBuyPage();
     }
+
     @Step("Получение любого сообщения от банка (успешно/не успешно)")
+
+
     public PaymentBuyPage checkAlarm() {
-        if (alarmOK.isDisplayed()) {
-            alarmOK.shouldHave(text("Успешно"));
-        } else alarmFail.shouldHave(text("Ошибка"));
+        alarmFail.isDisplayed();
         return new PaymentBuyPage();
     }
 
