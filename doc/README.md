@@ -15,7 +15,7 @@
 
 **Установка и запуск**
 
-1. Запустить распакованный проект в ПО IntelliJ ID
+1. Запустить распакованный проект в ПО IntelliJ ID: вызвать панель gradle двойным нажатием кнопки Shift, внести в строку "build", нажать на Enter;
 2. В командной строке внести "docker-compose up";
 3. Запустить приложение при помощи команды: java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar
    (для базы MySQL) или при помощи команды: java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar

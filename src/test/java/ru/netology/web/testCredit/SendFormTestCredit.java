@@ -49,22 +49,12 @@ public class SendFormTestCredit {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_1_1_1_Data.csv")
-    void ShouldCheckValidDataAndGetMessageSuccess(String month, int plusYear,String cardNumber, String owner, String cvc) {
+    void ShouldCheckValidDataForCreditAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV1(String month, int plusYear,String cardNumber, String owner, String cvc) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
         dashboardPage.clickOnButtonCreditCard();
         paymentPage.checkFieldMonth(plusYear,month, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_1_1_1_Data.csv")
-    void ShouldCheckValidDataAndGetApprovedAnswer(String month, int plusYear,String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkFieldMonth(plusYear,month, cardNumber, owner, cvc);
         String expectedAnswer = "APPROVED";
         CurrentData data2 = new CurrentData();
         CardDate date = new CardDate(cardNumber,data2.currentYear(plusYear), month, owner, cvc);
@@ -77,42 +67,22 @@ public class SendFormTestCredit {
                 .extract().as(Answer200.class);
         Assertions.assertNotNull(answer.getStatus());
         Assertions.assertEquals(expectedAnswer, answer.getStatus());
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_1_1_1_Data.csv")
-    void ShouldCheckValidDataAndGetEntryInDb(String month, int plusYear,String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkFieldMonth(plusYear,month, cardNumber, owner, cvc);
-        paymentPage.checkAlarmOk();
-        String expectedAnswer = "APPROVED";
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
+        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbCredit());
+        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+
     }
 
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_1_1_2_Data.csv")
-    void ShouldCheckValidDataAndGetMessageSuccessV2(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
+    void ShouldCheckValidDataForCreditAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV2(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentCreditPage();
         dashboardPage.clickOnButtonCreditCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_1_1_2_Data.csv")
-    void ShouldCheckValidDataAndGetApprovedAnswerV2(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         String expectedAnswer = "APPROVED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         CurrentData data2 = new CurrentData();
@@ -125,43 +95,23 @@ public class SendFormTestCredit {
                 .extract().as(Answer200.class);
         Assertions.assertNotNull(answer.getStatus());
         Assertions.assertEquals(expectedAnswer, answer.getStatus());
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_1_1_2_Data.csv")
-    void ShouldCheckValidDataAndGetEntryInDbV2(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
-        paymentPage.checkAlarmOk();
-        String expectedAnswer = "APPROVED";
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
+        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbCredit());
+        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
     }
+
 
 
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_4_1_Data.csv")
-    void ShouldCheckDeniedDataAndGetMessageFail(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
+    void ShouldCheckDeniedDataForCreditAndGetMessageFailGetDeclinedAnswerGetEntryInDb(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentCreditPage();
         dashboardPage.clickOnButtonCreditCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_4_1_Data.csv")
-    void ShouldCheckDeniedDataAndGetDeclinedAnswer(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         String expectedAnswer = "DECLINED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         CurrentData data2 = new CurrentData();
@@ -174,41 +124,23 @@ public class SendFormTestCredit {
                 .extract().as(Answer200.class);
         Assertions.assertNotNull(answer.getStatus());
         Assertions.assertEquals(expectedAnswer, answer.getStatus());
-    }
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_4_1_Data.csv")
-    void ShouldCheckDeniedDataAndGetEntryInDb(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
-        paymentPage.checkAlarmOk();//TODO сделать метод, что сообщение не пустое!
-        String expectedAnswer = "DECLINED";
         Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
+        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbCredit());
+        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
     }
+
+
 
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_4_3_Data.csv")
-    void ShouldCheckNotValidDataAndGetMessageFail(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
+    void ShouldCheckNotValidDataForCreditAndGetMessageFailGet500AnswerNotGetEntryInDb(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
         var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentCreditPage();
         dashboardPage.clickOnButtonCreditCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_4_3_Data.csv")
-    void ShouldCheckNotValidDataAndGet500Answer(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecFail500());
         CurrentData data2 = new CurrentData();
         CardDate data = new CardDate(cardNumber, data2.currentYear(plusYear), data2.currentMonth(plusMonth), owner, cvc);
@@ -220,21 +152,8 @@ public class SendFormTestCredit {
                 .extract().as(Answer500.class);
         Assertions.assertEquals("400 Bad Request", answer.getMessage());
         Assertions.assertEquals(500, answer.getStatus());
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(
-            resources = "/data/2_4_3_Data.csv")
-    void ShouldCheckNotValidDataAndAndNotGetEntryInDb(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        var dashboardPage = new DashboardPage();
-        var paymentPage = new PaymentCreditPage();
-        dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
-        paymentPage.checkAlarmFail();
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertNotNull(SettingsSQL.getIdFromOrder());
+        Assertions.assertNull(SettingsSQL.getIdFromOrder());
     }
-
-
 }
