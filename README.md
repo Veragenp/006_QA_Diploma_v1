@@ -33,10 +33,10 @@
 Лицензии не требуются
 
 **Перечень документов:**
-1. План работ;
-2. Процедура запуска проекта;
-3. Отчет по итогам тестирования;
-4. Отчет по итогам автоматизации.
+1. План работ - https://github.com/Veragenp/006_QA_Diploma_v1/blob/main/doc/Report.md;
+2. Процедура запуска проекта - ;
+3. Отчет по итогам тестирования - https://github.com/Veragenp/006_QA_Diploma_v1/blob/main/doc/Report.md;
+4. Отчет по итогам автоматизации - https://github.com/Veragenp/006_QA_Diploma_v1/blob/main/doc/Summary.md.
 
 
 
