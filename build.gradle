@@ -42,9 +42,7 @@ dependencies {
 test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
-    systemProperty 'dbPostgre.url=jdbc:postgresql://localhost:5432/app', System.getProperty('dbPostgre.url')
-    systemProperty 'dbMySql.url=jdbc:mysql://localhost:3306/app', System.getProperty('dbMySql.url')
-    systemProperty 'db.url', System.getProperty('db.url')
-
+    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:mysql://localhost:3306/app')
+    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')
 
 }

@@ -3,13 +3,9 @@ package ru.netology.web.page;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
 import ru.netology.web.data.CurrentData;
 
-import javax.lang.model.element.Element;
 import java.time.Duration;
-import java.util.NoSuchElementException;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -69,32 +65,12 @@ public class PaymentBuyPage {
 
     //Общая проверка на поля кроме года и месяца
     @Step("Проверка отправки формы с изменяемыми годом и месяцем")
-    public PaymentBuyPage checkField(int plusYear, int plusMonth, String cardNumber, String owner, String CVC) {
-        var currentData = new CurrentData();
-        int currentYearInt = currentData.currentYearInt(0);
-        int currentMonthInt = currentData.getCurrentMonthInt(0);
-        int monthInt = currentMonthInt + plusMonth;
-        int yearInt = currentYearInt + plusYear;
-        int monthRemainder = 12 - currentYearInt;
-//        if(monthInt < currentMonthInt & yearInt == currentYearInt) {
-//            monthInt = 0;
-//            yearInt = currentYearInt;
-//        }
-//        if(monthInt >= currentMonthInt & yearInt >= currentYearInt) {
-//           monthInt = monthInt;
-//           yearInt = yearInt;
-//        }
-//        if(yearInt < currentYearInt) {
-//            monthInt = monthInt;
-//            yearInt = 0;
-//        }
-        String month = String.format("%02d", monthInt);
-        String year = String.format("%02d", yearInt);
+    public PaymentBuyPage checkField(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
         cardNumberField.setValue(cardNumber);
-        monthField.setValue(month);
-        yearField.setValue(year);
+        monthField.setValue(CurrentData.getMonthString(plusMonth));
+        yearField.setValue(CurrentData.getYearString(plusYear));
         ownerField.setValue(owner);
-        cvcField.setValue(CVC);
+        cvcField.setValue(cvc);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
@@ -104,17 +80,12 @@ public class PaymentBuyPage {
 
     //Проверка на поле месяц
     @Step("Проверка отправки формы с изменяемыми годом")
-    public PaymentBuyPage checkFieldMonth(int plusYear, String month, String cardNumber, String owner, String CVC) {
-        var currentData = new CurrentData();
-        int currentYearInt = currentData.currentYearInt(0);
-        int currentMonthInt = currentData.getCurrentMonthInt(0);
-        int yearInt = currentYearInt + plusYear;
-        String year = String.format("%02d", yearInt);
+    public PaymentBuyPage checkFieldMonth(int plusYear, String month, String cardNumber, String owner, String cvc) {
         cardNumberField.setValue(cardNumber);
         monthField.setValue(month);
-        yearField.setValue(year);
+        yearField.setValue(CurrentData.getYearString(plusYear));
         ownerField.setValue(owner);
-        cvcField.setValue(CVC);
+        cvcField.setValue(cvc);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
@@ -123,17 +94,12 @@ public class PaymentBuyPage {
 
     //проверка поле год
     @Step("Проверка отправки формы с изменяемыми месяцем")
-    public PaymentBuyPage checkFieldYear(String year, int plusMonth, String cardNumber, String owner, String CVC) {
-        var currentData = new CurrentData();
-        int currentYearInt = currentData.currentYearInt(0);
-        int currentMonthInt = currentData.getCurrentMonthInt(0);
-        int monthInt = currentMonthInt + plusMonth;
-        String month = String.format("%02d", monthInt);
+    public PaymentBuyPage checkFieldYear(String year, int plusMonth, String cardNumber, String owner, String cvc) {
         cardNumberField.setValue(cardNumber);
-        monthField.setValue(month);
+        monthField.setValue(CurrentData.getMonthString(plusMonth));
         yearField.setValue(year);
         ownerField.setValue(owner);
-        cvcField.setValue(CVC);
+        cvcField.setValue(cvc);
         continueButton.click();
         Configuration.timeout = 70000;
         return new PaymentBuyPage();
@@ -212,13 +178,6 @@ public class PaymentBuyPage {
 
     public PaymentBuyPage checkAlarm() {
         alarmFail.isDisplayed();
-        return new PaymentBuyPage();
-    }
-
-    public PaymentBuyPage checkAlarm2() {
-        if (alarmFail.isDisplayed()) {
-            alarmFail.shouldHave(text("Ошибка"));
-        } else alarmOK.shouldHave(text("Успешно"));
         return new PaymentBuyPage();
     }
 

@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FieldTest {
+public class FieldTestPay {
     @BeforeAll
     static void setUpAll(){
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -30,9 +30,9 @@ public class FieldTest {
     @CsvFileSource(
             //TODO все же надо понять как быть со значениями: валидные они или нет 4444 4444 4444 4441 2, 0000 0000 0000 0000
             resources = "/data/2_3_1...2_DataCardNumber.csv")
-    void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumber(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
-        var dashboardPage = new DashboardPage();
+    void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumber(int plusMonth, int plusYear, String cardNumber, String owner, String cvc, String expectedCardNumber, String alarmText) {
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldCardNumber(alarmText);
@@ -44,9 +44,9 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_3_DataCardNumber.csv")
-    void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumberEmpty(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
+    void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumberEmpty(int plusMonth, int plusYear, String cardNumber, String owner, String cvc, String alarmText) {
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldCardNumber(alarmText);
@@ -59,8 +59,8 @@ public class FieldTest {
     @CsvFileSource(
             resources = "/data/2_3_4...5_DataMonth.csv")
     void ShouldCheckMonthAndGetAlarmAndFieldWithMonth(int plusYear, String month, String cardNumber, String owner, String cvc, String expectedMonth, String alarmText) {
-        var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkFieldMonth(plusYear, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldMonth(alarmText);
@@ -72,8 +72,8 @@ public class FieldTest {
     @CsvFileSource(
             resources = "/data/2_3_6_DataMonth.csv")
     void ShouldCheckMonthAndGetAlarmAndFieldWithMonthEmpty(int plusYear, String month, String cardNumber, String owner, String cvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkFieldMonth(plusYear, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldMonth(alarmText);
@@ -85,8 +85,8 @@ public class FieldTest {
     @CsvFileSource(
             resources = "/data/2_3_7...8_DataYear.csv")
     void ShouldCheckYearAndGetAlarmAndFieldWithYearEmpty(String year, int plusMonth, String cardNumber, String owner, String cvc, String expectedYear, String alarmText) {
-        var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkFieldYear(year, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldYear(alarmText);
@@ -98,8 +98,8 @@ public class FieldTest {
     @CsvFileSource(
             resources = "/data/2_3_7_DataYear.csv")
     void ShouldCheckYearAndGetAlarmAndFieldWithFieldYearZeroAmount(String year, int plusMonth, String cardNumber, String owner, String cvc, String expectedYear, String alarmText) {
-        var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkFieldYear(year, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldYear(alarmText);
@@ -111,23 +111,22 @@ public class FieldTest {
     @CsvFileSource(
             resources = "/data/2_3_9_DataYear.csv")
     void ShouldCheckYearAndGetAlarmWithFieldYear(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
-        var currentDate = new CurrentData();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldYear(alarmText);
         String actualYear = paymentPage.getFieldYear();
-        String expectedYear = currentDate.currentYear(plusYear);
+        String expectedYear = CurrentData.currentYear(plusYear);
         assertEquals(expectedYear, actualYear);
     }
 
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_10_DataCvc.csv")
-    void ShouldCheckCvcAndGetAlarmWithFieldCvc(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedCvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
+    void ShouldCheckCvcAndGetAlarmWithFieldCvc(int plusMonth, int plusYear, String cardNumber, String owner, String cvc, String expectedCvc, String alarmText) {
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldCvc(alarmText);
@@ -138,9 +137,9 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_11_DataCvc.csv")
-    void ShouldCheckCvcAndGetAlarmWithFieldEmpty(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
+    void ShouldCheckCvcAndGetAlarmWithFieldEmpty(int plusMonth, int plusYear,  String cardNumber, String owner, String cvc, String alarmText) {
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldCvc(alarmText);
@@ -151,9 +150,9 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_12_DataOwner.csv")
-    void ShouldCheckOwnerAndGetAlarmWithFieldOwner(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String expectedOwner, String alarmText) {
-        var dashboardPage = new DashboardPage();
+    void ShouldCheckOwnerAndGetAlarmWithFieldOwner(int plusMonth, int plusYear,  String cardNumber, String owner, String cvc, String expectedOwner, String alarmText) {
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldOwner(alarmText);
@@ -164,9 +163,9 @@ public class FieldTest {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_13_DataOwner.csv")
-    void ShouldCheckOwnerAndGetAlarmAndGetEmptyField(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
+    void ShouldCheckOwnerAndGetAlarmAndGetEmptyField(int plusMonth, int plusYear,  String cardNumber, String owner, String cvc, String alarmText) {
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldOwner(alarmText);
@@ -178,8 +177,8 @@ public class FieldTest {
     @CsvFileSource(
             resources = "/data/2_3_14...15_DataYearMonth.csv")
     void ShouldCheckMonthAndYearAndGetAlarmWrongValidity(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
-        var dashboardPage = new DashboardPage();
         var paymentPage = new PaymentBuyPage();
+        var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
         paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
         paymentPage.checkAlarmFieldMonth(alarmText);

@@ -33,12 +33,27 @@ public class SpecificationApi {
         RestAssured.requestSpecification = request;
         RestAssured.responseSpecification = response;
     }
-    public static void postRequest() {
+
+    public static Answer200 getPostRequest200(CardDate data) {
         Answer200 answer = given()
-                .body(CardDate.class)
+                .body(data)
+
                 .when()
                 .post("api/v1/pay")
                 .then().log().all()
                 .extract().as(Answer200.class);
+        return answer;
     }
+
+    public static Answer500 getPostRequest500(CardDate data) {
+        Answer500 answer = given()
+                .body(data)
+                .when()
+                .post("api/v1/pay")
+                .then().log().all()
+                .extract().as(Answer500.class);
+        return answer;
+    }
+
+
 }
