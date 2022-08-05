@@ -37,10 +37,11 @@ public class SendFormTestPay {
     @CsvFileSource(
             resources = "/data/2_1_1_1_Data.csv")
     void ShouldCheckValidDataForPaymentAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV1(String month, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentBuyPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
-        paymentPage.checkFieldMonth(plusYear, month, cardNumber, owner, cvc);
+        var paymentPage = new PaymentBuyPage();
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), month, owner, cvc);
@@ -57,10 +58,12 @@ public class SendFormTestPay {
     @CsvFileSource(
             resources = "/data/2_1_1_2_Data.csv")
     void ShouldCheckValidDataForPaymentAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV2(int plusMonth, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentBuyPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
+        var paymentPage = new PaymentBuyPage();
+        String month = CurrentData.getMonthString(plusMonth);
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
@@ -77,10 +80,12 @@ public class SendFormTestPay {
     @CsvFileSource(
             resources = "/data/2_4_1_Data.csv")
     void ShouldCheckDeniedDataForPaymentAndGetMessageFailGetDeclinedAnswerGetEntryInDb(int plusMonth, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentBuyPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
+        var paymentPage = new PaymentBuyPage();
+        String month = CurrentData.getMonthString(plusMonth);
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
         String expectedAnswer = "DECLINED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
@@ -96,10 +101,12 @@ public class SendFormTestPay {
     @CsvFileSource(
             resources = "/data/2_4_3_Data.csv")
     void ShouldCheckNotValidDataForPaymentAndGetMessageFailGet500AnswerNotGetEntryInDb(int plusMonth, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentBuyPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonPayCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
+        var paymentPage = new PaymentBuyPage();
+        String month = CurrentData.getMonthString(plusMonth);
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecFail500());
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);

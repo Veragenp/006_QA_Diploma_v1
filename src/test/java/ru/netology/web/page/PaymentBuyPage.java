@@ -1,14 +1,13 @@
 package ru.netology.web.page;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import ru.netology.web.data.CurrentData;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class PaymentBuyPage {
     private SelenideElement cardNumberField = $("*[placeholder='0000 0000 0000 0000']");
@@ -29,82 +28,48 @@ public class PaymentBuyPage {
 
     //проверка сообщения под полем Номер карты
     @Step("Проверка сообщения об ошибке под полем 'Номер карты'")
-    public PaymentBuyPage checkAlarmFieldCardNumber(String textAlarm) {
+    public void checkAlarmFieldCardNumber(String textAlarm) {
         alarmCardNumberField.shouldHave(text(textAlarm));
-        return new PaymentBuyPage();
-
     }
 
     //проверка сообщения под полем Месяц
     @Step("Проверка сообщения об ошибке под полем 'Месяц'")
-    public PaymentBuyPage checkAlarmFieldMonth(String textAlarm) {
+    public void checkAlarmFieldMonth(String textAlarm) {
         alarmMonthField.shouldHave(text(textAlarm));
-        return new PaymentBuyPage();
     }
 
     //проверка сообщения под полем Год
     @Step("Проверка сообщения об ошибке под полем 'Год'")
-    public PaymentBuyPage checkAlarmFieldYear(String textAlarm) {
+    public void checkAlarmFieldYear(String textAlarm) {
         alarmYearField.shouldHave(text(textAlarm));
-        return new PaymentBuyPage();
     }
 
     //проверка сообщения под полем Владелец
     @Step("Проверка сообщения об ошибке под полем 'Владелец'")
-    public PaymentBuyPage checkAlarmFieldOwner(String textAlarm) {
+    public void checkAlarmFieldOwner(String textAlarm) {
         alarmOwnerField.shouldHave(text(textAlarm));
-        return new PaymentBuyPage();
-    }
+         }
 
     //проверка сообщения под полем CVC
     @Step("Проверка сообщения об ошибке под полем 'CVC/CVV'")
-    public PaymentBuyPage checkAlarmFieldCvc(String textAlarm) {
+    public void checkAlarmFieldCvc(String textAlarm) {
         alarmCvcField.shouldHave(text(textAlarm));
-        return new PaymentBuyPage();
-    }
-
-    //Общая проверка на поля кроме года и месяца
-    @Step("Проверка отправки формы с изменяемыми годом и месяцем")
-    public PaymentBuyPage checkField(int plusYear, int plusMonth, String cardNumber, String owner, String cvc) {
-        cardNumberField.setValue(cardNumber);
-        monthField.setValue(CurrentData.getMonthString(plusMonth));
-        yearField.setValue(CurrentData.getYearString(plusYear));
-        ownerField.setValue(owner);
-        cvcField.setValue(cvc);
-        continueButton.click();
-        Configuration.timeout = 70000;
-        return new PaymentBuyPage();
-
-    }
+            }
 
 
     //Проверка на поле месяц
-    @Step("Проверка отправки формы с изменяемыми годом")
-    public PaymentBuyPage checkFieldMonth(int plusYear, String month, String cardNumber, String owner, String cvc) {
+    @Step("Проверка отправки формы")
+    public PaymentBuyPage checkField(String year, String month, String cardNumber, String owner, String cvc) {
         cardNumberField.setValue(cardNumber);
         monthField.setValue(month);
-        yearField.setValue(CurrentData.getYearString(plusYear));
-        ownerField.setValue(owner);
-        cvcField.setValue(cvc);
-        continueButton.click();
-        Configuration.timeout = 70000;
-        return new PaymentBuyPage();
-
-    }
-
-    //проверка поле год
-    @Step("Проверка отправки формы с изменяемыми месяцем")
-    public PaymentBuyPage checkFieldYear(String year, int plusMonth, String cardNumber, String owner, String cvc) {
-        cardNumberField.setValue(cardNumber);
-        monthField.setValue(CurrentData.getMonthString(plusMonth));
         yearField.setValue(year);
         ownerField.setValue(owner);
         cvcField.setValue(cvc);
         continueButton.click();
-        Configuration.timeout = 70000;
         return new PaymentBuyPage();
 
     }
+
 
     @Step("Получение значения в поле 'Номер карты'")
     public String getFieldCardNumber() {
@@ -151,47 +116,18 @@ public class PaymentBuyPage {
         }
     }
 
-
-    public PaymentBuyPage checkAlarmField() {
-        alarmCardNumberField.shouldHave(text("Неверный формат"));
-        return new PaymentBuyPage();
-
-    }
-
     @Step("Получение сообщения от банка 'Ошибка'")
-    public PaymentBuyPage checkAlarmFail() {
-        alarmFail.shouldHave(text("Ошибка"));
-        alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."));
-        return new PaymentBuyPage();
+    public void checkAlarmFail() {
+        alarmFail.shouldHave(text("Ошибка"), Duration.ofSeconds(30));
+        alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."), Duration.ofSeconds(30));
 
     }
 
     @Step("Получение сообщения от банка 'Успешно'")
-    public PaymentBuyPage checkAlarmOk() {
-        alarmOK.shouldHave(text("Успешно"));
-        alarmOkText.shouldHave(text("Операция одобрена Банком."));
-        return new PaymentBuyPage();
-    }
-
-    @Step("Получение любого сообщения от банка (успешно/не успешно)")
-
-
-    public PaymentBuyPage checkAlarm() {
-        alarmFail.isDisplayed();
-        return new PaymentBuyPage();
-    }
-
-
-    public void waitAlarmOk() {
-        alarmOK.should(appear, Duration.ofSeconds(30)); //работает
-        alarmOkText.shouldBe(appear);
-    }
-
-
-    public void shouldCheckParametrizedTest() {
-        alarmOK.should(appear, Duration.ofSeconds(30)); //работает
-        alarmOkText.shouldBe(appear);
-    }
+    public void checkAlarmOk() {
+        alarmOK.shouldHave(text("Успешно"), Duration.ofSeconds(30));
+        alarmOkText.shouldHave(text("Операция одобрена Банком."), Duration.ofSeconds(30));
+        }
 
 
 }

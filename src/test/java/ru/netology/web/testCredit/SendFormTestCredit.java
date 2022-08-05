@@ -5,16 +5,14 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.netology.web.data.*;
 import ru.netology.web.page.DashboardPage;
-import ru.netology.web.page.PaymentBuyPage;
 import ru.netology.web.page.PaymentCreditPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static io.restassured.RestAssured.given;
+
 
 public class SendFormTestCredit {
     @BeforeAll
@@ -36,10 +34,11 @@ public class SendFormTestCredit {
     @CsvFileSource(
             resources = "/data/2_1_1_1_Data.csv")
     void ShouldCheckValidDataForCreditAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV1(String month, int plusYear,String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentCreditPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkFieldMonth(plusYear,month, cardNumber, owner, cvc);
+        var paymentPage = new PaymentCreditPage();
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year,month, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         CardDate date = new CardDate(cardNumber,CurrentData.currentYear(plusYear), month, owner, cvc);
@@ -57,10 +56,12 @@ public class SendFormTestCredit {
     @CsvFileSource(
             resources = "/data/2_1_1_2_Data.csv")
     void ShouldCheckValidDataForCreditAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV2(int plusMonth, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentCreditPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
+        var paymentPage = new PaymentCreditPage();
+        String month = CurrentData.getMonthString(plusMonth);
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
@@ -79,10 +80,12 @@ public class SendFormTestCredit {
     @CsvFileSource(
             resources = "/data/2_4_1_Data.csv")
     void ShouldCheckDeniedDataForCreditAndGetMessageFailGetDeclinedAnswerGetEntryInDb(int plusMonth, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentCreditPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
+        var paymentPage = new PaymentCreditPage();
+        String month = CurrentData.getMonthString(plusMonth);
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
         String expectedAnswer = "DECLINED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
@@ -101,10 +104,12 @@ public class SendFormTestCredit {
     @CsvFileSource(
             resources = "/data/2_4_3_Data.csv")
     void ShouldCheckNotValidDataForCreditAndGetMessageFailGet500AnswerNotGetEntryInDb(int plusMonth, int plusYear, String cardNumber, String owner, String cvc) {
-        var paymentPage = new PaymentCreditPage();
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
-        paymentPage.checkField(plusYear, plusMonth, cardNumber, owner, cvc);
+        var paymentPage = new PaymentCreditPage();
+        String month = CurrentData.getMonthString(plusMonth);
+        String year = CurrentData.getYearString(plusYear);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmFail();
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecFail500());
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
