@@ -16,9 +16,10 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class SendFormTestCredit {
     @BeforeAll
-    static void setUpAll(){
+    static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
+
     private final static String URL = "http://localhost:8080/";
 
     @BeforeEach
@@ -33,22 +34,22 @@ public class SendFormTestCredit {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_1_1_1_Data.csv")
-    void ShouldCheckValidDataForCreditAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV1(String month, int plusYear,String cardNumber, String owner, String cvc) {
+    void ShouldCheckValidDataForCreditAndGetMessageSuccessGetApprovedAnswerGetEntryInDbV1(String month, int plusYear, String cardNumber, String owner, String cvc) {
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
         var paymentPage = new PaymentCreditPage();
         String year = CurrentData.getYearString(plusYear);
-        paymentPage.checkField(year,month, cardNumber, owner, cvc);
+        paymentPage.checkField(year, month, cardNumber, owner, cvc);
         paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
-        CardDate date = new CardDate(cardNumber,CurrentData.currentYear(plusYear), month, owner, cvc);
+        CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), month, owner, cvc);
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         Assertions.assertNotNull(SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
-        Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbCredit());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbCredit());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
 
     }
 
@@ -68,12 +69,11 @@ public class SendFormTestCredit {
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
         Assertions.assertNotNull(SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
-        Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbCredit());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbCredit());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
-
 
 
     @ParameterizedTest
@@ -92,12 +92,11 @@ public class SendFormTestCredit {
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
         Assertions.assertNotNull(SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
-        Assertions.assertEquals(expectedAnswer,  SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbCredit());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbPayment());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbCredit());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbCredit());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
-
 
 
     @ParameterizedTest

@@ -37,7 +37,6 @@ public class SpecificationApi {
     public static Answer200 getPostRequest200(CardDate data) {
         Answer200 answer = given()
                 .body(data)
-
                 .when()
                 .post("api/v1/pay")
                 .then().log().all()

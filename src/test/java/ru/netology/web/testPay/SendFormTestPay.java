@@ -47,11 +47,11 @@ public class SendFormTestPay {
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), month, owner, cvc);
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         Assertions.assertNotNull(SpecificationApi.getPostRequest200(date).getStatus());
-        Assertions.assertEquals(expectedAnswer,SpecificationApi.getPostRequest200(date).getStatus());
+        Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbPayment());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbPayment());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
 
     @ParameterizedTest
@@ -67,13 +67,13 @@ public class SendFormTestPay {
         paymentPage.checkAlarmOk();
         String expectedAnswer = "APPROVED";
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
-        CardDate date = new CardDate(cardNumber,CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
+        CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
         Assertions.assertNotNull(SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbPayment());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbPayment());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
 
     @ParameterizedTest
@@ -93,8 +93,8 @@ public class SendFormTestPay {
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date).getStatus());
         Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbPayment());
-        Assertions.assertEquals(1,SettingsSQL.getAmountOffRecordFromDbOrder());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbPayment());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
 
     @ParameterizedTest

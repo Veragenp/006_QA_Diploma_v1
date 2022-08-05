@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FieldTestCredit {
     @BeforeAll
-    static void setUpAll(){
+    static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
@@ -45,7 +45,7 @@ public class FieldTestCredit {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_3_DataCardNumber.csv")
-    void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumberEmpty( int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
+    void ShouldCheckCardNumberAndGetWrongFormatAndFieldWithCardNumberEmpty(int plusYear, int plusMonth, String cardNumber, String owner, String cvc, String alarmText) {
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
         var paymentPage = new PaymentCreditPage();
@@ -148,7 +148,7 @@ public class FieldTestCredit {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_11_DataCvc.csv")
-    void ShouldCheckCvcAndGetAlarmWithFieldEmpty(int plusMonth, int plusYear,  String cardNumber, String owner, String cvc, String alarmText) {
+    void ShouldCheckCvcAndGetAlarmWithFieldEmpty(int plusMonth, int plusYear, String cardNumber, String owner, String cvc, String alarmText) {
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
         var paymentPage = new PaymentCreditPage();
@@ -163,7 +163,7 @@ public class FieldTestCredit {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_12_DataOwner.csv")
-    void ShouldCheckOwnerAndGetAlarmWithFieldOwner(int plusMonth, int plusYear,  String cardNumber, String owner, String cvc, String expectedOwner, String alarmText) {
+    void ShouldCheckOwnerAndGetAlarmWithFieldOwner(int plusMonth, int plusYear, String cardNumber, String owner, String cvc, String expectedOwner, String alarmText) {
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
         var paymentPage = new PaymentCreditPage();
@@ -178,7 +178,7 @@ public class FieldTestCredit {
     @ParameterizedTest
     @CsvFileSource(
             resources = "/data/2_3_13_DataOwner.csv")
-    void ShouldCheckOwnerAndGetAlarmAndGetEmptyField(int plusMonth, int plusYear,  String cardNumber, String owner, String cvc, String alarmText) {
+    void ShouldCheckOwnerAndGetAlarmAndGetEmptyField(int plusMonth, int plusYear, String cardNumber, String owner, String cvc, String alarmText) {
         var dashboardPage = new DashboardPage();
         dashboardPage.clickOnButtonCreditCard();
         var paymentPage = new PaymentCreditPage();

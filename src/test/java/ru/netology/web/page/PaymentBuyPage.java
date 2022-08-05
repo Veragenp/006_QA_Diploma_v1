@@ -48,13 +48,13 @@ public class PaymentBuyPage {
     @Step("Проверка сообщения об ошибке под полем 'Владелец'")
     public void checkAlarmFieldOwner(String textAlarm) {
         alarmOwnerField.shouldHave(text(textAlarm));
-         }
+    }
 
     //проверка сообщения под полем CVC
     @Step("Проверка сообщения об ошибке под полем 'CVC/CVV'")
     public void checkAlarmFieldCvc(String textAlarm) {
         alarmCvcField.shouldHave(text(textAlarm));
-            }
+    }
 
 
     //Проверка на поле месяц
@@ -127,7 +127,7 @@ public class PaymentBuyPage {
     public void checkAlarmOk() {
         alarmOK.shouldHave(text("Успешно"), Duration.ofSeconds(30));
         alarmOkText.shouldHave(text("Операция одобрена Банком."), Duration.ofSeconds(30));
-        }
+    }
 
 
 }

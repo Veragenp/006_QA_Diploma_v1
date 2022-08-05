@@ -4,15 +4,17 @@ import io.qameta.allure.Step;
 import lombok.val;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-import org.junit.jupiter.api.BeforeEach;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class SettingsSQL {
 
     public SettingsSQL() {
 
     }
+
     @Step("Получение статуса операции из таблицы payment_entity базы данных")
     public static String getStatusOperationFromDbPayment() {
         String url = System.getProperty("db.url");
@@ -30,6 +32,7 @@ public class SettingsSQL {
         return statusSQL;
 
     }
+
     @Step("Получение количества записей в таблице payment_entity")
     public static Long getAmountOffRecordFromDbPayment() {
         String url = System.getProperty("db.url");
@@ -44,7 +47,7 @@ public class SettingsSQL {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-       return null;
+        return null;
     }
 
 
@@ -135,6 +138,7 @@ public class SettingsSQL {
             sqlException.printStackTrace();
         }
     }
+
     @Step("Удаление всех данных таблицы из payment_entity")
     public static void cleanseTablePayment() {
 
