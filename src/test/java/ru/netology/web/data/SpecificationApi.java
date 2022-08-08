@@ -34,25 +34,24 @@ public class SpecificationApi {
         RestAssured.responseSpecification = response;
     }
 
-    public static Answer200 getPostRequest200(CardDate data) {
+    public static Answer200 getPostRequest200(CardDate data, String path) {
         Answer200 answer = given()
                 .body(data)
                 .when()
-                .post("api/v1/pay")
+                .post(path)
                 .then().log().all()
                 .extract().as(Answer200.class);
         return answer;
     }
 
-    public static Answer500 getPostRequest500(CardDate data) {
+    public static Answer500 getPostRequest500(CardDate data, String path) {
         Answer500 answer = given()
                 .body(data)
                 .when()
-                .post("api/v1/pay")
+                .post(path)
                 .then().log().all()
                 .extract().as(Answer500.class);
         return answer;
     }
-
 
 }

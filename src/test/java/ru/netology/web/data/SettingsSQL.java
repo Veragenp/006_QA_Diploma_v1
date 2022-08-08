@@ -29,7 +29,7 @@ public class SettingsSQL {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return statusSQL;
+        return null;
 
     }
 
@@ -66,7 +66,7 @@ public class SettingsSQL {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return statusSQL;
+        return null;
 
     }
 
@@ -119,7 +119,7 @@ public class SettingsSQL {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return statusSQL;
+        return null;
 
     }
 

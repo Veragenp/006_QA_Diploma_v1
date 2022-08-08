@@ -44,3 +44,4 @@ out/
 !**/src/main/**
 !**/src/test/**
 !src/test/resources/data/**
+!artifacts/aqa-shop.jar
