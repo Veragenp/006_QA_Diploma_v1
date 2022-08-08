@@ -5,10 +5,12 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.netology.web.data.CardDate;
 import ru.netology.web.data.CurrentData;
+import ru.netology.web.data.SettingsSQL;
 import ru.netology.web.data.SpecificationApi;
 
 public class PayApiTest {
@@ -24,6 +26,12 @@ public class PayApiTest {
         SelenideLogger.removeListener("allure");
     }
 
+    @BeforeEach
+    public void setUp() {
+        SettingsSQL.cleanseTableCredit();
+        SettingsSQL.cleanseTablePayment();
+        SettingsSQL.cleanseTableOrder();
+    }
 
     @ParameterizedTest
     @CsvFileSource(
@@ -33,6 +41,10 @@ public class PayApiTest {
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), month, owner, cvc);
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date, "api/v1/pay").getStatus());
+        Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbPayment());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
 
     @ParameterizedTest
@@ -43,6 +55,10 @@ public class PayApiTest {
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date, "api/v1/pay").getStatus());
+        Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbPayment());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
 
     @ParameterizedTest
@@ -53,6 +69,10 @@ public class PayApiTest {
         SpecificationApi.installSpecification(SpecificationApi.requestSpec(URL), SpecificationApi.responseSpecOk200());
         CardDate date = new CardDate(cardNumber, CurrentData.currentYear(plusYear), CurrentData.currentMonth(plusMonth), owner, cvc);
         Assertions.assertEquals(expectedAnswer, SpecificationApi.getPostRequest200(date, "api/v1/pay").getStatus());
+        Assertions.assertEquals(expectedAnswer, SettingsSQL.getStatusOperationFromDbPayment());
+        Assertions.assertNull(SettingsSQL.getStatusOperationFromDbCredit());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbPayment());
+        Assertions.assertEquals(1, SettingsSQL.getAmountOffRecordFromDbOrder());
     }
 
     @ParameterizedTest
