@@ -118,15 +118,15 @@ public class PaymentPage {
 
     @Step("Получение сообщения от банка 'Ошибка'")
     public void checkAlarmFail() {
-        alarmFail.shouldHave(text("Ошибка"), Duration.ofSeconds(30));
-        alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."), Duration.ofSeconds(30));
+        alarmFail.shouldHave(text("Ошибка"), Duration.ofSeconds(60));
+        alarmFailText.shouldHave(text("Ошибка! Банк отказал в проведении операции."), Duration.ofSeconds(5));
 
     }
 
     @Step("Получение сообщения от банка 'Успешно'")
     public void checkAlarmOk() {
-        alarmOK.shouldHave(text("Успешно"), Duration.ofSeconds(30));
-        alarmOkText.shouldHave(text("Операция одобрена Банком."), Duration.ofSeconds(30));
+        alarmOK.shouldHave(text("Успешно"), Duration.ofSeconds(60));
+        alarmOkText.shouldHave(text("Операция одобрена Банком."), Duration.ofSeconds(5));
     }
 
 
